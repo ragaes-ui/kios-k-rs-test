@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kios Anjungan Mandiri - RS Sehat Selalu</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        /* Custom class untuk transisi halaman */
+        .screen {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Styling untuk tombol utama di menu */
+        .main-menu-button {
+            transition: all 0.3s ease;
+            transform: scale(1);
+        }
+        .main-menu-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        /* Modal styling */
+        .modal-backdrop {
+            transition: opacity 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 flex items-center justify-center min-h-screen">
+
+    <div class="w-full max-w-4xl mx-auto bg-white rounded-2xl shadow-2xl overflow-hidden">
+        <div class="p-6 bg-gradient-to-r from-blue-500 to-teal-400 text-white flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold">RS Sehat Selalu</h1>
+                <p class="text-sm opacity-90">Anjungan Pendaftaran Mandiri</p>
+            </div>
+            <div id="clock" class="text-xl font-semibold"></div>
+        </div>
+
+        <div class="p-8 md:p-12">
+            <!-- Screen: Main Menu -->
+            <div id="main-menu" class="screen active">
+                <h2 class="text-3xl font-bold text-slate-800 text-center mb-8">Selamat Datang, Silakan Pilih Layanan</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Tombol Pendaftaran -->
+                    <button onclick="showScreen('registration-screen')" class="main-menu-button bg-white p-6 rounded-xl shadow-md text-center">
+                        <i data-feather="user-plus" class="w-16 h-16 mx-auto text-blue-500 mb-4"></i>
+                        <span class="text-xl font-semibold text-slate-700">Pendaftaran Pasien Baru</span>
+                    </button>
+                    <!-- Tombol Check-in -->
+                    <button onclick="showScreen('check-in-screen')" class="main-menu-button bg-white p-6 rounded-xl shadow-md text-center">
+                        <i data-feather="log-in" class="w-16 h-16 mx-auto text-teal-500 mb-4"></i>
+                        <span class="text-xl font-semibold text-slate-700">Check-In Mandiri</span>
+                    </button>
+                    <!-- Tombol Jadwal Dokter -->
+                    <button onclick="showScreen('schedule-screen')" class="main-menu-button bg-white p-6 rounded-xl shadow-md text-center">
+                        <i data-feather="calendar" class="w-16 h-16 mx-auto text-indigo-500 mb-4"></i>
+                        <span class="text-xl font-semibold text-slate-700">Jadwal Dokter</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen: Pendaftaran Pasien Baru -->
+            <div id="registration-screen" class="screen">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Formulir Pendaftaran Pasien Baru</h2>
+                <form id="registration-form" class="space-y-4">
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-slate-600">Nama Lengkap</label>
+                        <input type="text" id="name" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                    </div>
+                    <div>
+                        <label for="nik" class="block text-sm font-medium text-slate-600">Nomor KTP (NIK)</label>
+                        <input type="text" id="nik" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                    </div>
+                    <div>
+                        <label for="dob" class="block text-sm font-medium text-slate-600">Tanggal Lahir</label>
+                        <input type="date" id="dob" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="showScreen('main-menu')" class="w-full bg-slate-200 text-slate-800 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors">Kembali</button>
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Daftar</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Screen: Check-In Mandiri -->
+            <div id="check-in-screen" class="screen">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Check-In Mandiri</h2>
+                <p class="text-slate-600 mb-6 text-center">Masukkan Nomor Rekam Medis atau Nomor KTP Anda.</p>
+                <form id="checkin-form" class="space-y-4">
+                     <div>
+                        <label for="checkin-id" class="block text-sm font-medium text-slate-600">No. Rekam Medis / NIK</label>
+                        <input type="text" id="checkin-id" class="mt-1 block w-full px-4 py-3 border border-slate-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-lg" required>
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="showScreen('main-menu')" class="w-full bg-slate-200 text-slate-800 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors">Kembali</button>
+                        <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-lg font-semibold hover:bg-teal-700 transition-colors">Check-In</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Screen: Jadwal Dokter -->
+            <div id="schedule-screen" class="screen">
+                <h2 class="text-2xl font-bold text-slate-800 mb-6">Jadwal Praktek Dokter</h2>
+                <div class="space-y-4">
+                    <!-- Contoh Jadwal Dokter -->
+                    <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg">Dr. Budi Santoso, Sp.PD</h3>
+                            <p class="text-slate-600">Spesialis Penyakit Dalam</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-medium text-teal-600">Senin - Jumat</p>
+                            <p class="text-slate-500">08:00 - 15:00</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg">Dr. Citra Lestari, Sp.A</h3>
+                            <p class="text-slate-600">Spesialis Anak</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-medium text-teal-600">Selasa & Kamis</p>
+                            <p class="text-slate-500">10:00 - 16:00</p>
+                        </div>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-lg flex items-center justify-between">
+                        <div>
+                            <h3 class="font-semibold text-lg">Dr. Anisa Rahmawati, Sp.OG</h3>
+                            <p class="text-slate-600">Spesialis Kandungan</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="font-medium text-teal-600">Senin, Rabu, Jumat</p>
+                            <p class="text-slate-500">09:00 - 14:00</p>
+                        </div>
+                    </div>
+                </div>
+                 <div class="mt-6">
+                    <button type="button" onclick="showScreen('main-menu')" class="w-full bg-slate-200 text-slate-800 py-3 rounded-lg font-semibold hover:bg-slate-300 transition-colors">Kembali</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal Notifikasi -->
+    <div id="notification-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50 hidden modal-backdrop">
+        <div class="bg-white rounded-xl shadow-2xl p-8 text-center max-w-sm mx-auto transform transition-all scale-95 opacity-0" id="modal-content">
+            <div id="modal-icon" class="mx-auto mb-4"></div>
+            <h3 id="modal-title" class="text-2xl font-bold text-slate-800 mb-2"></h3>
+            <p id="modal-message" class="text-slate-600 mb-6"></p>
+            <button id="modal-close-btn" class="bg-blue-600 text-white py-2 px-8 rounded-lg font-semibold hover:bg-blue-700 transition-colors">Tutup</button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- Logika Navigasi Antar Layar ---
+        let currentScreen = 'main-menu';
+
+        function showScreen(screenId) {
+            document.getElementById(currentScreen).classList.remove('active');
+            document.getElementById(screenId).classList.add('active');
+            currentScreen = screenId;
+        }
+
+        // --- Logika Jam Digital ---
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${hours}:${minutes}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // --- Logika Modal Notifikasi ---
+        const modal = document.getElementById('notification-modal');
+        const modalContent = document.getElementById('modal-content');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        function showNotification(type, title, message) {
+            const iconContainer = document.getElementById('modal-icon');
+            if (type === 'success') {
+                iconContainer.innerHTML = `<div class="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center mx-auto"><i data-feather="check" class="w-10 h-10 text-green-600"></i></div>`;
+            } else {
+                iconContainer.innerHTML = `<div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto"><i data-feather="x" class="w-10 h-10 text-red-600"></i></div>`;
+            }
+            
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-message').innerText = message;
+            
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+            }, 10);
+            
+            feather.replace(); // Render ikon baru di modal
+        }
+
+        function hideNotification() {
+            modalContent.classList.add('scale-95', 'opacity-0');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+        
+        modalCloseBtn.addEventListener('click', hideNotification);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideNotification();
+            }
+        });
+
+        // --- Logika Form ---
+        document.getElementById('registration-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Di aplikasi nyata, data akan dikirim ke server di sini.
+            showNotification('success', 'Pendaftaran Berhasil!', 'Nomor antrian Anda adalah A-123. Silakan menunggu di ruang tunggu poli umum.');
+            this.reset();
+            setTimeout(() => {
+                hideNotification();
+                showScreen('main-menu');
+            }, 5000); // Kembali ke menu utama setelah 5 detik
+        });
+        
+        document.getElementById('checkin-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const checkinId = document.getElementById('checkin-id').value;
+             // Validasi sederhana
+            if(checkinId) {
+                showNotification('success', 'Check-In Berhasil!', `Selamat datang kembali. Anda telah terdaftar untuk konsultasi hari ini. Silakan menuju ke Poli Jantung.`);
+                this.reset();
+                 setTimeout(() => {
+                    hideNotification();
+                    showScreen('main-menu');
+                }, 5000);
+            }
+        });
+
+        // --- Inisialisasi Ikon ---
+        feather.replace();
+    </script>
+</body>
+</html>
